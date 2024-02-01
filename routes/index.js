@@ -37,6 +37,16 @@ router.get('/:id',async (req,res)=>{
     }
 })
 
+router.use((req,res,next)=>{
+    if(req.body.id == undefined || req.body.id == ""){
+        res.status(404).send('El id no ha sido enviado.')
+    }else if(req.body.nombre == undefined || req.body.nombre == ""){
+        res.status(404).send('El id no ha sido enviado.')
+    }else{
+        next()
+    }
+})
+
 
 router.post('/',async (req,res)=>{
     const response =  await postUser(req.body.nombre)

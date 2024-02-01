@@ -43,8 +43,19 @@ const postUser = async (userData)=>{
 
 const PutUser = async(data,index) =>{
     try{
-        await conn.query(`update user set nombre = '${data}' where id = ${index}`)
-        return true;
+        const verify = await getUserById(index)
+
+        if(verify[0].length != 0){
+
+            const datas = await conn.query(`update user set nombre = '${data}' where id = ${index}`)
+
+            return true
+        
+        }else{
+        
+            return false
+        
+        }
     }catch(e){
         console.log(e);
         return false
@@ -53,8 +64,14 @@ const PutUser = async(data,index) =>{
 
 const DeleteUser = async(index)=>{
     try{
-        await conn.query(`delete from user where id = ${index}`)
-        return true;
+        const verify = await getUserById(index)
+
+        if(verify[0].length != 0){
+            await conn.query(`delete from user where id = ${index}`)
+            return true
+        }else{
+            return false
+        }
     }catch(e){
         console.log(e);
         return false
